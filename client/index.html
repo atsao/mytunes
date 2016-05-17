@@ -34,6 +34,7 @@
         var app = new AppModel({library: library});
 
         // build a view for the top level of the whole app
+        // appView - global variable that creates a new instance of AppView view, passing in object which has variable 'app' as a property of the key 'model'
         var appView = new AppView({model: app});
 
         // put the view onto the screen
