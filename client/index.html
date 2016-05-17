@@ -22,7 +22,15 @@
     <script>
       $(function(){
         // set up model objects
+        // Library - global variable that creates new instance of Songs collection passing in songData.
+        // Creates new instances of Song model for each object in songData array
+        // Adds the properties of objects in songData array as attributes to each Song model instance
         var library = new Songs(songData);
+        
+        // App - global variable that creates new instance of App model passing in object which has variable library as a property
+        // Sets the currentSong as a new instance of Song model
+        // Sets the songQueue as a new instance of the SongQueue collection
+        // Adds a 'play' listener on variable library (which is Songs collection) therefore adding a 'play' listener to each Song model in the Songs collection
         var app = new AppModel({library: library});
 
         // build a view for the top level of the whole app
