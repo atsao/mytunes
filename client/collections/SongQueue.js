@@ -2,58 +2,39 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
+    // Listen for any time queue is added to
+    this.on('add', this.decideWhetherToPlay);
 
-    // different event?
-      this.on('add', this.playFirst, this);
+    this.on('ended', this.removeFirstSong);
+    this.on('dequeue', this.removeFirstSong);
+    this.on('remove', this.decideWhetherToPlay);
   },
 
-  playFirst: function() {
-    if (this.length > 0 ) {
+  // Hears an add event
+  // Decides whether to call playFirst() or not
+  decideWhetherToPlay: function() {
+    var queue = this;
 
-    } else {
-
-    this.models[0].play(); // change to use to get/set
+    // If there's one song in the queue (means there was nothing in queue before add)
+    if (queue.length === 1) {
+      // Call playFirst method of the queue passing in song
+      queue.playFirst();
     }
   },
 
+  playFirst: function() {
+    var queue = this;
+    // Will only be triggered when a song is added to a previously empty queue
+    queue.first().play();
+  },
+
+  removeFirstSong: function() {
+    var queue = this;
+    // Remove acts on the collection (this) and takes a model as a parameter
+    queue.remove(queue.first());
+  },
+
+
+
 
 });
-
-var songData = [
-  {
-    url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/04+One+In+A+Million.mp3",
-    title: "One In A Million",
-    artist: "Aaliyah",
-  },
-  {
-    url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/03+Age+Ain%27t+Nothing+But+A+Number.mp3",
-    title: "Age Ain't Nothing But A Number",
-    artist: "Aaliyah",
-  },
-  {
-    url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/05+Hot+Like+Fire.mp3",
-    title: "Hot Like Fire",
-    artist: "Aaliyah",
-  },
-  {
-    url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/06+If+Your+Girl+Only+Knew.mp3",
-    title: "If Your Girl Only Knew",
-    artist: "Aaliyah",
-  }
-];
-
-
-// var testSongs = new Songs(songData);
-// console.log("testSongs: ", testSongs);
-
-var testSongQueue = new SongQueue(songData);
-console.log("testSongQ: ", testSongQueue);
-
-var testSong = {
-    url: "sadfs://s3-us-west-1.amazonaws.com/hr-mytunes/data/06+If+Your+Girl+Only+Knew.mp3",
-    title: "If asdf Girl Only Knew",
-    artist: "asdf",
-  };
-
-testSongQueue.add(testSong);
-console.log("testSongQ: ", testSongQueue);

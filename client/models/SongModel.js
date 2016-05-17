@@ -7,6 +7,15 @@ var SongModel = Backbone.Model.extend({
     // Why do we need to pass along the keyword this when we trigger the 'play' event?
     // this = context of song that emits the 'play' event
     this.trigger('play', this);
+  },
+
+  ended: function() {
+    // Adjust to account for song length (time) and user pausing?
+    this.trigger('ended', this);
+  },
+
+  dequeue: function() {
+    this.trigger('dequeue', this);
   }
 
 });
