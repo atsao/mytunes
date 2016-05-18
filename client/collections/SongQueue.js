@@ -10,7 +10,9 @@ var SongQueue = Songs.extend({
     // this.on('dequeue', this.remove, this);
     // this.on('remove', this.decideWhetherToPlay, this);
     this.on('add', this.enqueue, this);
-    this.on('dequeue', this.dequeue, this);
+    // this.on('dequeue', this.dequeue, this);
+    this.on('dequeueQueue', this.dequeueQueue, this);
+    this.on('dequeuePlaylist', this.dequeuePlaylist, this);
     this.on('ended', this.playNext, this);
   },
 
@@ -48,7 +50,23 @@ var SongQueue = Songs.extend({
     }
   },
 
-  dequeue: function(song) {
+  // dequeue: function(song) {
+  //   if (this.at(0) === song) {
+  //     this.playNext();
+  //   } else {
+  //     this.remove(song);
+  //   }
+  // },
+
+  dequeueQueue: function(song) {
+    if (this.at(0) === song) {
+      this.playNext();
+    } else {
+      this.remove(song);
+    }
+  },
+
+  dequeuePlaylist: function(song) {
     if (this.at(0) === song) {
       this.playNext();
     } else {
